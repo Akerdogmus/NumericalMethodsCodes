@@ -1,0 +1,117 @@
+% ESOGU Electrical-Electronics Engineering Department 
+% 2016-2017 Fall Semester
+% Numerical Methods
+%
+% Homework-1
+
+clear 
+clc
+close all 
+
+a_std_ID_no=151220132027; 
+a_std_name='Alim Kerem Erdoğmuş'; 
+a_hw_number=1; 
+fprintf('\n%.f - %s - Homework-%d\n',a_std_ID_no,a_std_name,a_hw_number) 
+
+%%Question-1
+
+x = pi/6;
+true_value = sin(x);
+total = 0;
+
+for k = 0:4
+    
+    term = (((-1).^k)*x.^(2*k+1))/factorial(2*k+1);
+    total = term + total;
+    approximation(k+1) = total;
+    true_value_vector = true_value;
+    
+end
+
+true_percent_errors = ((true_value_vector-approximation)./true_value_vector)*100;
+
+for a = 2:5
+    
+    fprintf('\n%15f',true_percent_errors(a));
+    
+end
+
+k1 = 1:4;
+x1 = true_percent_errors(2:end);
+figure(1)
+plot(k1,x1,'-.b','LineWidth',3)
+title('Figure-1:True Percent Relative Error')
+xlabel('K1')
+ylabel('X1')
+grid 
+
+%%%%%%%%%%%%
+
+
+%%Question-2
+
+
+%%A)Bisection Method
+
+
+f=@(x) (3*log(x.^2)+2*sin(x)-5);
+a=1;
+b=5;
+for i=1:50
+  c=(a+b)/2;
+  if f(c)>0
+   b=c;
+  else a=c;
+  end
+ end
+ a=1; b=2; p=c;
+ for i=1:50
+  c=(a+b)/2;
+ er(i)=f(c)-f(p);
+ if f(c)>0
+ b=c;
+ else a=c;
+ end
+ end
+ fprintf('\nRoot of given equation is %f',c)
+ figure(2)
+ plot(er,'-.r','LineWidth',3);
+ title('Figure-2:Plot of error(Bisec.)')
+ xlabel('Number of iterations')
+ ylabel('Error')
+ grid on;
+
+%%B)False-Position Method
+
+f=@(x) (3*log(x.^2)+2*sin(x)-5);
+a=1;
+b=5;
+
+for i=1:10
+    
+    x0=a; x1=b;
+    
+    fprintf('\n Hence root between (%.4f,%.0f)',a,b)
+    
+    x2(i)=x0-(x1-x0)/(f(x1)-f(x0))*f(x0);
+    if f(x2(i))>0
+        
+        b=x2(i);
+    else a=x2(i);
+    end
+    fprintf('\n Therefore,x2=%.4f \n Here f(x2)=%.4f',x2(i),f(x2(i)))
+    p=x2(i);
+end
+
+for i=1:10
+    error(i)=p-x2(i);
+end
+
+Answer=p;
+figure(3)
+plot(error,'-.m','LineWidth',3)
+grid on;
+title('Figure-3:Plot of Error(False-Pos)');
+xlabel('Iterations');
+ylabel('Error');
+
